@@ -2,7 +2,6 @@ package ps1;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import javax.swing.*;
 

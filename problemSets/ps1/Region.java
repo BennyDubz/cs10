@@ -22,12 +22,16 @@ public class Region {
         return points.size();
     }
 
+    public Point getPoint(int i) {
+        return points.get(i);
+    }
+
     public void setPoints(ArrayList<Point> points) {
         this.points = points;
     }
 
     public void wipeRegion() {
-        this.points = new ArrayList<>();
+        points.clear();
     }
 
 }

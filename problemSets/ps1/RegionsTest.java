@@ -25,7 +25,7 @@ public class RegionsTest extends DrawingGUI {
 		super(name, finder.getImage().getWidth(), finder.getImage().getHeight());
 
 		// Do the region finding and recolor the image.
-		finder.findRegionStarts(targetColor);
+		finder.findRegions(targetColor);
 		finder.recolorImage();
 		image = finder.getRecoloredImage();
 	}
@@ -39,6 +39,7 @@ public class RegionsTest extends DrawingGUI {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				// new RegionsTest("smiley", new RegionFinder(loadImage("pictures/smiley.png")), new Color(0, 0, 0));
+				// Target = (130,100,100)
 				new RegionsTest("baker", new RegionFinder(loadImage("assets/images/baker.jpeg")), new Color(130, 100, 100));
 			}
 		});
