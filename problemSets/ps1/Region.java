@@ -7,11 +7,11 @@ public class Region {
     private ArrayList<Point> points;
 
     public Region() {
-        points = new ArrayList<>();
+        points = new ArrayList<Point>();
     }
 
     public void addPoint(Point point){
-        this.points.add(point);
+        points.add(point);
     }
 
     public ArrayList<Point> getPoints() {
@@ -33,6 +33,8 @@ public class Region {
     public void wipeRegion() {
         points.clear();
     }
+
+
 
 }
 
