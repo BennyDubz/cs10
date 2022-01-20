@@ -27,7 +27,7 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
 		}
 	}
 
-	public SinglyLinkedHT() {
+	public SinglyLinkedHT() throws Exception {
 		// TODO: this is just copied from SinglyLinked; modify as needed
 		head = null;
 		tail = null;
@@ -65,6 +65,7 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
 			// Splice it in
 			e.next = new Element(item, e.next);
 		}
+		// Set tail after operation
 		setTail();
 		size++;
 	}
@@ -83,6 +84,7 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
 			// Splice it out
 			e.next = e.next.next;
 		}
+		// Set tail after operation
 		setTail();
 		size--;
 	}
@@ -101,11 +103,11 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
 	 * Sets tail to last element in list
 	 */
 	public void setTail() throws Exception {
-		// Get second to last element in list
+		// Set e to second to last element in list
 		Element e = advance(size - 1);
-		// If second to last element is null (usually when list is empty), just set it equal to null pointing to null
+		// If second to last element is null (usually when list is empty), just set e equal to null and pointing to null
 		if (e == null) { e = new Element(null, null); }
-		// Set tail equal to pointer of second to last element
+		// Set tail equal to e
 		tail = e.next;
 	}
 
@@ -116,16 +118,19 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
 		// TODO: YOUR CODE HERE
 		// Make sure we're working with the right tail
 		setTail();
+
 		// If this list is empty, just set it to the other list and ensure we have the right tail
 		if (this.head == null) {
 			this.head = other.head;
 			setTail();
 			return;
 		}
+
 		// If the other list is empty, don't do anything
 		if (other.head == null) {
 			return;
 		}
+
 		// If both lists hold data, then splice them together, add sizes, and set new tail
 		this.tail.next = other.head;
 		this.size += other.size();
