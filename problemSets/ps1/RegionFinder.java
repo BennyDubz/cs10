@@ -17,16 +17,16 @@ import java.util.*;
  * @author Ben Williams, Winter 2022
  */
 public class RegionFinder {
-	private static final int maxColorDiff = 42;				// how similar a pixel color must be to the target color, to belong to a region
-	private static final int minRegion = 50; 				// how many points in a region to be worth considering
+	private static final int maxColorDiff = 35;				// how similar a pixel color must be to the target color, to belong to a region
+	private static final int minRegion = 80; 				// how many points in a region to be worth considering
 
 	private BufferedImage image;                            // the image in which to find regions
 	private BufferedImage recoloredImage;                   // the image with identified regions recolored
-	private BufferedImage visited;
+	private BufferedImage visited;							// the image which keeps track of which pixels have been visited
 
-	private ArrayList<Region> regions;			// a region is a list of points
-	private Stack queue;
-															// so the identified regions are in a list of lists of points
+	private ArrayList<Region> regions;						// the ArrayList which holds our regions
+	private Stack queue;									// Stack which holds points to check for color matches
+
 
 	public RegionFinder() {
 		this.image = null;
@@ -59,34 +59,31 @@ public class RegionFinder {
 		for (int y = 0; y < image.getHeight(); y++) {
 			for (int x = 0; x < image.getWidth(); x++) {
 
-				// If the current pixel hasn't been visited, set it to visited
+				// If the current pixel hasn't been visited
 				if ((visited.getRGB(x,y) == 0)){
+					// Set current pixel to visited
 					visited.setRGB(x,y,1);
-
 					// Gets color at current pixel
 					Color colorCheck = new Color(image.getRGB(x,y));
 
-					// If the current pixel color matches the target color, add it to the queue stack and start a new region
+					// If the current pixel color matches the target color, add it to the queue Stack and start a new region
 					if (colorMatch(colorCheck,targetColor)) {
 						Point firstPoint = new Point(x,y);
 						queue.add(firstPoint);
 						Region region = new Region();
 
-						// While the queue is not empty continue checking loop which adds neighbors to queue and adds color matches to region
+						// While the queue is not empty continue loop which adds color matches in queue to region and adds their neighbors to queue
 						while (!queue.empty()) {
-
 							// Get first point on queue and remove it, then get color at that point
 							Point p = (Point) queue.pop();
 							Color pColor = new Color(image.getRGB(p.x,p.y));
 
 							// If the color matches
 							if (colorMatch(pColor,targetColor)) {
-
 								// Loop through all adjacent neighbors
 								for (int ny = Math.max(0, p.y - 1); ny <= Math.min(image.getHeight() - 1, p.y + 1); ny++) {
 									for (int nx = Math.max(0, p.x - 1); nx <= Math.min(image.getWidth() - 1, p.x + 1); nx++) {
-
-										// If neighbor is unvisited, add it to the queue and mark as visited
+										// If neighbor is unvisited, then mark as visited and add it to queue
 										if (visited.getRGB(nx,ny) == 0) {
 											visited.setRGB(nx,ny,1);
 											Point np = new Point(nx, ny);
@@ -101,7 +98,7 @@ public class RegionFinder {
 						}
 
 						// Adds the newly created region to regions arrayList if it meets required size
-						if (region.getSize() > minRegion){
+						if (region.getSize() > minRegion) {
 							regions.add(region);
 						}
 					}
@@ -126,13 +123,23 @@ public class RegionFinder {
 	/**
 	 * Returns the largest region detected (if any region has been detected)
 	 */
-	public Region largestRegion() {
+	public Region largestRegion() throws Exception {
+		// If there aren't any regions, throw exception
+		if (regions.size() <= 0) {
+			throw new Exception("No Regions Detected");
+		}
+
+		// Declare a Region to store the largest region
 		Region largestReg = new Region();
+
+		// Loop through all regions, and if any of them are bigger than the current largest region, then set largestReg to that region
 		for (Region reg : regions) {
 			if (reg.getSize() > largestReg.getSize()) {
 				largestReg = reg;
 			}
 		}
+
+		// Return the largest region found
 		return largestReg;
 	}
 
@@ -144,6 +151,7 @@ public class RegionFinder {
 	public void recolorImage() {
 		// First copy the original
 		recoloredImage = new BufferedImage(image.getColorModel(), image.copyData(null), image.getColorModel().isAlphaPremultiplied(), null);
+
 		// Now recolor the regions in it
 		for (Region reg : regions) {
 			// Set each region to random color

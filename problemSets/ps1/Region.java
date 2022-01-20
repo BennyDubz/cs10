@@ -1,5 +1,12 @@
 package ps1;
 
+/**
+ * Region class holds an ArrayList of points
+ *
+ * @author Alex Craig, Winter 2022
+ * @author Ben Willais, Winter 2022
+ */
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -29,12 +36,6 @@ public class Region {
     public void setPoints(ArrayList<Point> points) {
         this.points = points;
     }
-
-    public void wipeRegion() {
-        points.clear();
-    }
-
-
 
 }
 
