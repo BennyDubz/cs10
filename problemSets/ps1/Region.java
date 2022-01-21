@@ -37,5 +37,7 @@ public class Region {
         this.points = points;
     }
 
+    public void wipeRegion(){ points = new ArrayList<Point>();}
+
 }
 
