@@ -54,6 +54,8 @@ public class RegionFinder {
 		return recoloredImage;
 	}
 
+	public void wipeRegions() { regions = new ArrayList<>(); }
+
 	/**
 	 * Sets regions to the flood-fill regions in the image, similar enough to the trackColor.
 	 */

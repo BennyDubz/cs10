@@ -2,7 +2,6 @@ package ps1;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 import javax.swing.*;
 
@@ -75,14 +74,12 @@ public class CamPaint extends Webcam {
 	@Override
 	public void processImage() throws Exception {
 		// TODO: YOUR CODE HERE
-		// Update the finder's image to current webcam output
+		// Wipe finder's previous regions and update the finder's image to current webcam output
+		finder.wipeRegions();
 		finder.setImage(super.image);
-
-		System.out.println(finder.getImage());
 
 		// Look for regions of target color (if one has been set), and set the largest one to brush
 		if (targetColor != null) {
-			// TODO: this seems to be looking through brush strokes as well
 			finder.findRegions(targetColor);
 			brush = finder.largestRegion();
 		}
