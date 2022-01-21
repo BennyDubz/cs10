@@ -69,7 +69,7 @@ public class WebcamRendering extends Webcam {
 	}
 	
 	@Override
-	public void draw(Graphics g) {
+	public void draw(Graphics g) throws Exception {
 		if (image!=null) {
 			if (style=='m') mosaic(g);
 			else if (style=='p') pointillism(g);

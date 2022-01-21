@@ -35,6 +35,7 @@ public class WebcamColorTracking extends Webcam {
 				}
 			}
 		}
+		System.out.println(closest);
 		return new Point(cx,cy);
 	}
 
@@ -53,7 +54,7 @@ public class WebcamColorTracking extends Webcam {
 	 * Webcam method, here also showing tracked color point
 	 */
 	@Override
-	public void draw(Graphics g) {
+	public void draw(Graphics g) throws Exception {
 		super.draw(g);
 		if (trackColor != null) {
 			// Draw circle at tracked point, with border in the inverse color

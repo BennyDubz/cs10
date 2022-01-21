@@ -80,7 +80,7 @@ public class Webcam extends DrawingGUI {
 	/**
 	 * Processes the grabbed image.
 	 */
-	public void processImage() {
+	public void processImage() throws Exception {
 		// Default: nothing
 	}
 	
@@ -88,7 +88,7 @@ public class Webcam extends DrawingGUI {
 	 * DrawingGUI method, here showing the current image.
 	 */
 	@Override
-	public void draw(Graphics g) {
+	public void draw(Graphics g) throws Exception {
 		g.drawImage(image, 0, 0, null);
 	}
 
@@ -107,7 +107,7 @@ public class Webcam extends DrawingGUI {
 						grabbed = grabberConverter.convert(grabber.grab());
 					}	
 					catch (Exception e) {
-						Thread.sleep(100); // wait a bit
+						Thread.sleep(10); // wait a bit
 					}
 				}
 				if (mirror) {
@@ -130,7 +130,7 @@ public class Webcam extends DrawingGUI {
 					System.exit(-1);
 				}
 				canvas.repaint(); //*** this causes draw() to fire
-				Thread.sleep(100); // slow it down
+				Thread.sleep(10); // slow it down
 			}
 			// All done; clean up
 			grabber.stop();

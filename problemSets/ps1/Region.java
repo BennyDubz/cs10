@@ -4,7 +4,7 @@ package ps1;
  * Region class holds an ArrayList of points
  *
  * @author Alex Craig, Winter 2022
- * @author Ben Willais, Winter 2022
+ * @author Ben Williams, Winter 2022
  */
 
 import java.awt.*;
@@ -21,12 +21,12 @@ public class Region {
         points.add(point);
     }
 
-    public ArrayList<Point> getPoints() {
-        return points;
-    }
-
     public int getSize(){
         return points.size();
+    }
+
+    public ArrayList<Point> getPoints() {
+        return points;
     }
 
     public Point getPoint(int i) {

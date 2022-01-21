@@ -61,14 +61,22 @@ public class DrawingGUI extends JFrame {
 		canvas = new JComponent() {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				draw(g);  //our object's drawing method call
+				try {
+					draw(g);  //our object's drawing method call
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};		
 
 		// Listen for events
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent event) {
-				handleMousePress(event.getPoint().x, event.getPoint().y);
+				try {
+					handleMousePress(event.getPoint().x, event.getPoint().y);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		canvas.addMouseMotionListener(new MouseAdapter() {
@@ -123,7 +131,7 @@ public class DrawingGUI extends JFrame {
 	 * Method to draw in the canvas, to be overridden by subclasses.
 	 * @param g
 	 */
-	public void draw(Graphics g) {
+	public void draw(Graphics g) throws Exception {
 	}
 
 	/**
@@ -131,7 +139,7 @@ public class DrawingGUI extends JFrame {
 	 * @param x		x coordinate of mouse press
 	 * @param y		y coordinate of mouse press
 	 */
-	public void handleMousePress(int x, int y) {
+	public void handleMousePress(int x, int y) throws Exception {
 	}
 
 	/**

@@ -17,8 +17,8 @@ import java.util.*;
  * @author Ben Williams, Winter 2022
  */
 public class RegionFinder {
-	private static final int maxColorDiff = 35;				// how similar a pixel color must be to the target color, to belong to a region
-	private static final int minRegion = 80; 				// how many points in a region to be worth considering
+	private static final int maxColorDiff = 1200;			// how similar a pixel color must be to the target color, to belong to a region (40 for baker)
+	private static final int minRegion = 80; 				// how many points in a region to be worth considering (80 for baker)
 
 	private BufferedImage image;                            // the image in which to find regions
 	private BufferedImage recoloredImage;                   // the image with identified regions recolored
@@ -30,6 +30,8 @@ public class RegionFinder {
 
 	public RegionFinder() {
 		this.image = null;
+		regions = new ArrayList<>();
+		queue = new Stack();
 	}
 
 	public RegionFinder(BufferedImage image) {
@@ -41,6 +43,7 @@ public class RegionFinder {
 
 	public void setImage(BufferedImage image) {
 		this.image = image;
+		this.visited = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 	}
 
 	public BufferedImage getImage() {
@@ -111,22 +114,22 @@ public class RegionFinder {
 	 * Tests whether the two colors are "similar enough" (your definition, subject to the maxColorDiff threshold, which you can vary).
 	 */
 	private static boolean colorMatch(Color c1, Color c2) {
-		// Use a absolute value function to get a difference between two parameter colors
-		int diff = (Math.abs(c1.getRed() - c2.getRed())
-				+ Math.abs(c1.getGreen() - c2.getGreen())
-				+ Math.abs(c1.getBlue() - c2.getBlue()));
+		// Use euclidean function to get a difference between two parameter colors
+		int diff = (c1.getRed() - c2.getRed()) * (c1.getRed() - c2.getRed())
+				+ (c1.getGreen() - c2.getGreen()) * (c1.getGreen() - c2.getGreen())
+				+ (c1.getBlue() - c2.getBlue()) * (c1.getBlue() - c2.getBlue());
 
 		// If the difference is less than maximum acceptable color difference, return true
 		return diff <= maxColorDiff;
 	}
 
 	/**
-	 * Returns the largest region detected (if any region has been detected)
+	 * Returns the largest region detected, if no regions, return null
 	 */
-	public Region largestRegion() throws Exception {
-		// If there aren't any regions, throw exception
+	public Region largestRegion() {
+		// If there aren't any regions, return null
 		if (regions.size() <= 0) {
-			throw new Exception("No Regions Detected");
+			return null;
 		}
 
 		// Declare a Region to store the largest region
@@ -161,4 +164,5 @@ public class RegionFinder {
 			}
 		}
 	}
+
 }
