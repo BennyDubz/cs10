@@ -22,7 +22,7 @@ public class RegionsTest extends DrawingGUI {
 	 * @param targetColor
 	 */
 	public RegionsTest(String name, RegionFinder finder, Color targetColor) {
-		super(name, finder.getImage().getWidth(), finder.getImage().getHeight());
+		// super(name, finder.getImage().getWidth(), finder.getImage().getHeight());
 
 		// Do the region finding and recolor the image.
 		finder.findRegions(targetColor);
@@ -33,6 +33,10 @@ public class RegionsTest extends DrawingGUI {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(image, 0, 0, null);
+	}
+
+	public BufferedImage getImage() {
+		return image;
 	}
 
 	public static void main(String[] args) { 

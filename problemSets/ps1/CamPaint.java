@@ -60,11 +60,14 @@ public class CamPaint extends Webcam {
 		if (displayMode == 'p') {
 			g.drawImage(this.painting, 0, 0, null);
 		}
-		if (displayMode == 's') {
+		if (displayMode == 't') {
 			g.drawImage(this.brushStrokes, 0, 0, null);
 		}
+
+		//TODO: THIS NEEDS SOME WORK - DONT WANT IT TO LOOP (ALSO MAYBE RESIZE WINDOW TO FIT PICTURE)
 		if (displayMode == 'r') {
-			g.drawImage(finder.getRecoloredImage(), 0, 0, null);
+			RegionsTest baker = new RegionsTest("baker", new RegionFinder(loadImage("assets/images/baker.jpeg")), new Color(130, 100, 100));
+			g.drawImage(baker.getImage(), 0, 0, null);
 		}
 	}
 
@@ -130,7 +133,7 @@ public class CamPaint extends Webcam {
 	 */
 	@Override
 	public void handleKeyPress(char k) {
-		if (k == 'p' || k == 'r' || k == 'w' || k == 's') { // display: painting, recolored image, webcam, or brushStrokes
+		if (k == 'p' || k == 'r' || k == 'w' || k == 't') { // display: painting, recolored image, webcam, or brushStrokes
 			displayMode = k;
 			System.out.println("Display Mode: " + k);
 		}
@@ -145,7 +148,7 @@ public class CamPaint extends Webcam {
 			saveImage(finder.getRecoloredImage(), "assets/images/recolored.jpeg", "png");
 		}
 		else if (k == 's') { // save the painting
-			saveImage(painting, "assets/images/baker.jpeg", "png");
+			saveImage(painting, "assets/images/painting.jpeg", "png");
 		}
 		else {
 			System.out.println("unexpected key " + k);

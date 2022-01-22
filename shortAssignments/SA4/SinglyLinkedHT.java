@@ -122,7 +122,7 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
         // If this list is empty, just set it to the other list and ensure we have the right tail
         if (this.head == null) {
             this.head = other.head;
-            setTail();
+            this.tail = other.tail;
             return;
         }
 
@@ -134,7 +134,7 @@ public class SinglyLinkedHT<T> implements SimpleList<T> {
         // If both lists hold data, then splice them together, add sizes, and set new tail
         this.tail.next = other.head;
         this.size += other.size();
-        setTail();
+        this.tail = other.tail;
     }
 
     public String toString() {
