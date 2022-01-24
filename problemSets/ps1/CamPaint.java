@@ -20,6 +20,7 @@ public class CamPaint extends Webcam {
 	private Color targetColor;          	// color of regions of interest (set by mouse press)
 	private Color brushColor;				// the color to put into the painting from the "brush"
 	private boolean brushDown;				// boolean to determine whether brush is down
+	private boolean eraser;					// boolean to determine whether eraser is active
 
 	private BufferedImage brushStrokes;		// the image which holds the rgb values of pixels of all brush strokes
 	private BufferedImage brushed;			// defines what pixels have been brushed (necessary in case rgb of brush is 0)
@@ -33,6 +34,7 @@ public class CamPaint extends Webcam {
 		brushed = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		finder = new RegionFinder();
 		brushDown = true;
+		eraser = false;
 		clearPainting();
 	}
 
@@ -87,14 +89,20 @@ public class CamPaint extends Webcam {
 			brush = finder.largestRegion();
 		}
 
-		// Brushing loop (adds brush region to brushStokes)
-		if (brushDown && brush != null) {
+		// Brushing / erasing loop (adds brush region to brushStokes)
+		if (brush != null) {
 			// Loop through all pixels in brush
 			for (int i = 0; i < brush.getPoints().size(); i++) {
-				// For every point in brush, set the rgb value to brushColor in brushStrokes
 				Point p = brush.getPoint(i);
-				brushStrokes.setRGB(p.x, p.y, brushColor.getRGB());
-				brushed.setRGB(p.x, p.y, 1);
+				if (eraser) {
+					// For every point in brush, set point to unbrushed
+					brushStrokes.setRGB(p.x, p.y, 0);
+					brushed.setRGB(p.x, p.y, 0);
+				} else if (brushDown) {
+					// For every point in brush, set the rgb value to brushColor in brushStrokes
+					brushStrokes.setRGB(p.x, p.y, brushColor.getRGB());
+					brushed.setRGB(p.x, p.y, 1);
+				}
 			}
 		}
 
@@ -143,6 +151,10 @@ public class CamPaint extends Webcam {
 		else if (k == 'b') { // Toggle brush
 			brushDown = !brushDown;
 			System.out.println("Brush-Down is: " + brushDown);
+		}
+		else if (k == 'e') { // Toggle eraser
+			eraser = !eraser;
+			System.out.println("Eraser is: " + eraser);
 		}
 		else if (k == 'o') { // save the recolored image
 			saveImage(finder.getRecoloredImage(), "assets/images/recolored.jpeg", "png");
