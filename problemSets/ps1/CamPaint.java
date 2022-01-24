@@ -67,8 +67,6 @@ public class CamPaint extends Webcam {
 		if (displayMode == 't') {
 			g.drawImage(this.brushStrokes, 0, 0, null);
 		}
-
-		//TODO: THIS NEEDS SOME WORK - DONT WANT IT TO LOOP (ALSO MAYBE RESIZE WINDOW TO FIT PICTURE)
 		if (displayMode == 'r') {
 			if (baker != null){
 				g.drawImage(baker.getImage(), 0, 0, null);
